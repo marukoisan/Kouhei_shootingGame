@@ -1,6 +1,6 @@
 #pragma once
 
-struct T_locaion
+struct T_Location
 {
 	float x;
 	float y;

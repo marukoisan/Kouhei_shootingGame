@@ -8,5 +8,6 @@ public:
 public:
 	virtual void Update()override;
 	virtual void Draw() override;
+	virtual bool isScreenOut() override;//’e‚ªŠO‚Éo‚½‚©‚Ç‚¤‚©”»’è‚ğ‚Æ‚éŠÖ”
 };
 

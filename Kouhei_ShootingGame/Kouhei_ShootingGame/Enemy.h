@@ -7,6 +7,9 @@ private:
 	int point;
 
 public:
+	Enemy(T_Location location);//コンストラクタ
+
+public:
 	virtual void Update() override;
 	virtual void Draw() override;
 	virtual void Hit() override;

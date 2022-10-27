@@ -3,10 +3,9 @@
 #include"BulletsBase.h"
 class CharaBase : public SphereCollider
 {
-private:
-	T_Location speed;
 
 protected:
+	T_Location speed;//	スピードを見るための変数
 	BulletsBase** bullets; //(ポインタ配列)
 	int* image;//配列も入れられるようにポインタ化
 

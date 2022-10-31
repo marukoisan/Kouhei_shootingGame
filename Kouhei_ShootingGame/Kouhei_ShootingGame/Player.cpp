@@ -43,6 +43,10 @@ void Player::Update()
 
 	for (bulletCount = 0; bulletCount < 30; bulletCount++)//30回回してnullptrならbreak
 	{
+		if (bulletCount == 30)
+		{
+			break;
+		}
 
 		if (bullets[bulletCount] == nullptr)
 		{
@@ -57,15 +61,18 @@ void Player::Update()
 			bullets[bulletCount] = nullptr;//不特定な値を見ないようにするためにnullptrを代入する
 
 			//配列を前に詰める処理
-			/*if (bullets[bulletCount] == nullptr)
+		
+			if (bullets[bulletCount] == nullptr && bullets[bulletCount + 1] != nullptr)
 			{
-				w = bullets[bulletCount + 1]途中並び替えはしなくて大丈夫
-
-			}*/
+				bullets[bulletCount] = bullets[bulletCount + 1];//途中並び替えはしなくて大丈夫
+				
+			}
+			
 		}
+	
 	}
 
-	if (KeyManager::OnMouseClicked(MOUSE_INPUT_LEFT))//球の発射管理をしている左クリックで球を発射
+	if (KeyManager::OnMousePressed(MOUSE_INPUT_LEFT))//球の発射管理をしている左クリックで球を発射
 	{
 		if (bulletCount < 30 && bullets[bulletCount] == nullptr)
 		{

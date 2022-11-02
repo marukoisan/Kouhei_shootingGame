@@ -12,8 +12,10 @@ public:
 public:
 	void Update() override;
 	void Draw() override;
-	void Hit() override;
+	void Hit(int damage) override;
 	bool LifeCheck();//ライフをチェックする関数
 	int GetScore();//スコアを返す関数
+	
+
 };
 

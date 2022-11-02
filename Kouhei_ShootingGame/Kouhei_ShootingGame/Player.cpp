@@ -57,16 +57,8 @@ void Player::Update()
 		//画面外に行ったら弾を消す
 		if (bullets[bulletCount]->isScreenOut())
 		{
-			delete bullets[bulletCount];
-			bullets[bulletCount] = nullptr;//不特定な値を見ないようにするためにnullptrを代入する
-
-			//配列を前に詰める処理
-		
-			if (bullets[bulletCount] == nullptr && bullets[bulletCount + 1] != nullptr)
-			{
-				bullets[bulletCount] = bullets[bulletCount + 1];//途中並び替えはしなくて大丈夫
-				
-			}
+			DeleteBullet(bulletCount);//弾を消すための関数
+			bulletCount--;//弾が出なくなることをなくす処理
 			
 		}
 	
@@ -97,7 +89,7 @@ void Player::Draw()
 	}
 }
 
-void Player::Hit()
+void Player::Hit(int damage)
 {
 
 }

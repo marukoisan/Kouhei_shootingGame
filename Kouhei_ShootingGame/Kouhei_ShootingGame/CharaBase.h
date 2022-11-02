@@ -15,10 +15,10 @@ public:
 
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-	virtual void Hit() = 0;
+	virtual void Hit(int damage) = 0;
 
 	BulletsBase** GetBullets();//Bullets‚ğó‚¯æ‚éŠÖ”
 
-
+	void DeleteBullet(int bulletNum);//w’è‚³‚ê‚½’e‚Ì”Ô†‚ğíœ‚·‚é
 };
 

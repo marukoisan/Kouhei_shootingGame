@@ -104,3 +104,11 @@ int Player::GetScore()
 {
 	return score;
 }
+
+void Player::AddScore(int score)
+{
+	if (0 <= score)//0ˆÈã‚Ì”’l‚ð‰ÁŽZ‚·‚é
+	{
+		this->score += score;
+	}
+}

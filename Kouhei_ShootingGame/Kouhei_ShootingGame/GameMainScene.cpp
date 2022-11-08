@@ -33,7 +33,7 @@ void GameMainScene::Update()
 	
 	BulletsBase** bullet = player->GetBullets();
 
-	for (enemyCount = 0; enemyCount < 30; enemyCount++)
+	for (enemyCount = 0; enemyCount < 10; enemyCount++)
 	{
 		if (enemy[enemyCount] == nullptr)
 		{
@@ -62,7 +62,26 @@ void GameMainScene::Update()
 				//エネミーのhpが0以下
 				if (enemy[enemyCount]->HpCheck())
 				{
+
+					//スコアの加算
+					player->AddScore(enemy[enemyCount]->GetPoint());
+
 					//エネミーの削除
+					delete enemy[enemyCount];
+					enemy[enemyCount] = nullptr;//不特定な値を見ないようにするためにnullptrを代入する
+					
+					//配列を前に詰める処理
+					for (int i = enemyCount + 1; i < 10; i++)
+					{
+						if (enemy[i + 1] == nullptr)
+						{
+							break;
+						}
+						enemy[i] = enemy[i + 1];
+						enemy[i + 1] = nullptr;
+					}
+					enemyCount--;
+					break;
 				}
 			}
 		}

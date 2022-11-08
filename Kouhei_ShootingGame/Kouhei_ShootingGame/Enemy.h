@@ -6,6 +6,8 @@ private:
 	int hp;
 	int point;
 
+protected:
+
 public:
 	Enemy(T_Location location);//コンストラクタ
 

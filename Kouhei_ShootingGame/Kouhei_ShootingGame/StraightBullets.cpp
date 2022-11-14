@@ -2,8 +2,8 @@
 #include "StraightBullets.h"
 
 
-StraightBullets::StraightBullets(T_Location location) 
-	: BulletsBase(location,5.f,1,T_Location{0,2})
+StraightBullets::StraightBullets(T_Location location, T_Location speed)
+	: BulletsBase(location,5.f,1,speed)
 {
 
 }
@@ -24,6 +24,6 @@ void StraightBullets::Draw()
 bool StraightBullets::isScreenOut()
 {
 	//画面外に弾が出ると消える処理、GetRadiusをたしているのは弾の中心座標の分から足している
-	bool ret = ((GetLocation().y + GetRadius()) <= 0);
+	bool ret = ((GetLocation().y + GetRadius()) <= 0 || (GetLocation().y + GetRadius()) >= 480);
 	return ret;
 }

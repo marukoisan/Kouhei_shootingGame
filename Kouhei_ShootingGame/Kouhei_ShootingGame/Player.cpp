@@ -2,9 +2,10 @@
 #include "Player.h"
 #include"StraightBullets.h"
 #include"KeyManager.h"
+#include"Recovery.h"
 
 Player::Player(T_Location location):
-	CharaBase(location, 10.f, T_Location{2,2}), score(0),life(2)
+	CharaBase(location, 10.f, T_Location{2,2}), score(0),life(10)
 {
 	bullets = new BulletsBase*[30];//同時に30発出せるようになる
 	for (int i = 0; i < 30; i++)//中身をnullptrを入れている
@@ -68,7 +69,7 @@ void Player::Update()
 	{
 		if (bulletCount < 30 && bullets[bulletCount] == nullptr)
 		{
-			bullets[bulletCount] = new StraightBullets(GetLocation());
+			bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{0,2});
 			
 		}
 		
@@ -77,6 +78,12 @@ void Player::Update()
 
 void Player::Draw()
 {
+#define _DEBUG_MODE_//名前を変えるとき_DEBUG_MODE_PLEYRなど　_MODE_の後ろを変更する
+
+#ifdef _DEBUG_MODE_//デバッグモードこの処理があればこの中の処理に通る
+	DrawFormatString(10, 10, GetColor(255, 255, 255), "life = %d", life);
+#endif
+
 	DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 0, 0));
 
 	for (int bulletCount = 0; bulletCount < 30; bulletCount++)
@@ -92,6 +99,23 @@ void Player::Draw()
 void Player::Hit(int damage)
 {
 
+}
+
+void Player::Hit(ItemBase* item)//重なったらアイテムに関する情報をもらう
+{
+	switch (item->GetType())
+	{
+		case E_ITEM_TYPE::Heal:
+		{
+
+
+			Recovery* recovery = dynamic_cast<Recovery*>(item);//キャストすることで値を代入している
+			life += recovery->GetVolume();//回復処理
+			break;
+		}
+		default:
+			break;
+	}
 }
 
 bool Player::LifeCheck()

@@ -10,6 +10,10 @@ protected:
 	T_Location speed;
 
 public:
+	//コンストラクタ
+	ItemBase(T_Location location, float radius, E_ITEM_TYPE type, T_Location speed);
+
+public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	E_ITEM_TYPE GetType();//アイテムのタイプを取得する関数

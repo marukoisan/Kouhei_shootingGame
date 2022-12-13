@@ -5,11 +5,12 @@ class Enemy : public CharaBase
 private:
 	int hp;
 	int point;
+	int shotNum;//どれだけ弾を出したかの変数
 
 protected:
 
 public:
-	Enemy(T_Location location);//コンストラクタ
+	Enemy(T_Location location , float speed);//コンストラクタ
 
 public:
 	virtual void Update() override;

@@ -2,26 +2,48 @@
 #include "Enemy.h"
 #include"BulletsBase.h"
 #include"StraightBullets.h"
+#include"RotationBullets.h"
 
-Enemy::Enemy(T_Location location)
-	: CharaBase(location, 20.f, T_Location{ 0,0.5 })
-	, hp(10), point(10)
+//移動する順番(座標)の配列
+T_Location locations[4] = {
+
+	{640,-40},
+	{640,100},
+	{1100,100},
+	{100,100}
+};
+
+Enemy::Enemy(T_Location location, float speed)
+	: CharaBase(location, 20.f, T_Location{ 0,0 })
+	, hp(10), point(10),shotNum(0)
 {
 	bullets = new BulletsBase * [30];//同時に30発出せるようになる
 	for (int i = 0; i < 30; i++)//中身をnullptrを入れている
 	{
 		bullets[i] = nullptr;
 	}
+
+	float x = 1;
+	float y = 1;
+
+	this->speed = T_Location{ (speed * x), (speed * y) };
+
 }
 
 
 void Enemy::Update()
 {
-	T_Location newLocation = GetLocation();
+	/*T_Location newLocation = GetLocation();
+	newLocation.y += speed.y;
+	SetLocation(newLocation);*/
+
+	T_Location newLocation = locations[0];
 	newLocation.y += speed.y;
 	SetLocation(newLocation);
-
-
+	
+	T_Location  locations[1];
+	newLocation.y += speed.y;
+	SetLocation(newLocation);
 	//エネミーの弾の処理
 
 	int bulletCount;
@@ -49,10 +71,15 @@ void Enemy::Update()
 		}
 
 	}
-
+	
 	if (bulletCount < 30 && bullets[bulletCount] == nullptr)
 	{
-		bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0,-2 });
+		//回転する弾
+		bullets[bulletCount] = new RotationBullets(GetLocation(),2.f,(20 * shotNum));
+		shotNum++;
+
+		//T_Locationで弾の方向とスピードを決めている
+		//bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
 	}
 
 	

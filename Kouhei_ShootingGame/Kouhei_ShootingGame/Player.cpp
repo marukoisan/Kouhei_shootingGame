@@ -69,8 +69,8 @@ void Player::Update()
 	{
 		if (bulletCount < 30 && bullets[bulletCount] == nullptr)
 		{
-			bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{0,2});
-			
+			//T_Locationで弾の方向とスピードを決めている
+			bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{0,-2});
 		}
 		
 	}
@@ -82,6 +82,7 @@ void Player::Draw()
 
 #ifdef _DEBUG_MODE_//デバッグモードこの処理があればこの中の処理に通る
 	DrawFormatString(10, 10, GetColor(255, 255, 255), "life = %d", life);
+	DrawFormatString(10, 30, GetColor(255, 255, 255), "score = %d", score);
 #endif
 
 	DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 0, 0));
@@ -98,7 +99,14 @@ void Player::Draw()
 
 void Player::Hit(int damage)
 {
-
+	if (0 <= damage)
+	{
+		life -= damage;
+		if (life <= 0)
+		{
+			life = 0;
+		}
+	}
 }
 
 void Player::Hit(ItemBase* item)//重なったらアイテムに関する情報をもらう

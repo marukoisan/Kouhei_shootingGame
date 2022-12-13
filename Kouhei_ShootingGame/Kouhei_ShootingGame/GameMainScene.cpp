@@ -12,7 +12,8 @@ GameMainScene::GameMainScene()
 		enemy[i] = nullptr;//配列の中にnullptrを入れる
 	}
 	//enemy[0]番目に入れている
-	enemy[0] = new Enemy(T_Location{ 200,0 });//初期位置を決める場所
+	//enemy[0] = new Enemy(T_Location{ 200,0 });//初期位置を決める場所
+	enemy[0] = new Enemy(T_Location{ SCREEN_WIDTH / 2, SCREEN_HEIGHT /2 },1);//初期位置を決める場所
 
 	items = new ItemBase* [10];//アイテムの初期化処理
 	for (int i = 0; i < 10; i++)
@@ -49,13 +50,14 @@ void GameMainScene::Update()
 
 	
 	BulletsBase** bullet = player->GetBullets();
-
+	//エネミーにダメージを与えるfor文
 	for (enemyCount = 0; enemyCount < 10; enemyCount++)
 	{
 		if (enemy[enemyCount] == nullptr)
 		{
 			break;
 		}
+
 		for (int bulletCount = 0; bulletCount < 30; bulletCount++)
 		{
 			if (bullet[bulletCount] == nullptr)
@@ -74,6 +76,7 @@ void GameMainScene::Update()
 				//弾を削除します
 				player->DeleteBullet(bulletCount);
 				bulletCount--;
+
 
 				// 
 				//エネミーのhpが0以下
@@ -110,6 +113,76 @@ void GameMainScene::Update()
 					}
 					enemyCount--;
 					break;
+				}
+			}
+		}
+	}
+
+	//プレイヤーにダメージを与えるfor文
+	for (enemyCount = 0; enemyCount < 10; enemyCount++)
+	{
+		if (enemy[enemyCount] == nullptr)
+		{
+			break;
+		}
+
+		BulletsBase** bullet = enemy[enemyCount]->GetBullets();//エネミーが配列なのでエネミー一つ一つのデータを持ってくるため
+
+		for (int i = 0; i < 30; i++)
+		{
+			if (bullet[i] == nullptr)
+			{
+				break;
+			}
+
+			if (player->HitSphere(bullet[i]))
+			{
+				//エネミーにプレイヤーの弾がヒット
+				// 
+				// 
+				// プレイヤーにダメージを与えます
+				player->Hit(bullet[i]->GetDamage());
+
+				//弾を削除します
+				enemy[enemyCount]->DeleteBullet(i);
+				i--;
+
+
+				// 
+				//プレイヤーのLifeが0以下
+				if (player->LifeCheck())
+				{
+					//アイテムの処理
+
+					//for (int i = 0; i < 10; i++)
+					//{
+					//	if (items[i] == nullptr)
+					//	{
+					//		items[i] = new Recovery(enemy[enemyCount]->GetLocation());//敵が死んだ座標にアイテムを出現させる
+					//		break;//breakで抜ける
+					//	}
+
+					//}
+
+					////スコアの加算
+					//player->AddScore(enemy[enemyCount]->GetPoint());
+
+					//エネミーの削除
+					/*delete player;
+					player = nullptr*/;//不特定な値を見ないようにするためにnullptrを代入する
+
+					//配列を前に詰める処理
+					/*for (int i = enemyCount; i < 10 - 1; i++)
+					{
+						if (enemy[i + 1] == nullptr)
+						{
+							break;
+						}
+						enemy[i] = enemy[i + 1];
+						enemy[i + 1] = nullptr;
+					}*/
+					/*enemyCount--;
+					break;*/
 				}
 			}
 		}

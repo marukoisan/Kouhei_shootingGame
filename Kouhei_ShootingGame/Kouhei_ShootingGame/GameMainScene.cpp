@@ -13,8 +13,7 @@ GameMainScene::GameMainScene()
 	}
 	//enemy[0]番目に入れている
 	//enemy[0] = new Enemy(T_Location{ 200,0 });//初期位置を決める場所
-	enemy[0] = new Enemy(T_Location{ SCREEN_WIDTH / 2, SCREEN_HEIGHT /2 },1);//初期位置を決める場所
-
+	enemy[0] = new Enemy(T_Location{ 640,0},1);//初期位置を決める場所
 	items = new ItemBase* [10];//アイテムの初期化処理
 	for (int i = 0; i < 10; i++)
 	{

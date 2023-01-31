@@ -36,20 +36,57 @@ T_MoveInformation moveInfo[5] = {
 int current = 0;
 int waitCount = 0;
 
-//移動する順番(座標)の配列
-T_Location locations[3] = {
+void inputCSV()
+{
+	FILE* fp; //FILE型構造体
+	errno_t error; // fopen_sのエラー確認
 
-	{   640,150},
-	{1000.4,150},
-	{  180.2,150},
-};
+	error = fopen_s(&fp, "EnemyData/EnemyMove1.csv", "r");//データを置いた場所をしっかりと指定する
+
+	if (error != 0)//ゼロじゃない時
+	{
+		//エラー発生
+		return;
+	}
+	else 
+	{
+		//ファイルを開いた
+		char line[100];//一行
+		//while (fgets(line, 100, fp) != NULL)
+		for (int i = 0; fgets(line, 100, fp) != NULL; i++)//100の所は一行に100文字分を見るという意味
+		{
+			sscanf_s(line, "%d, %f, %f, %d, %d, %d",
+				&moveInfo[i].pattern,
+				&moveInfo[i].targetLocation.x,
+				&moveInfo[i].targetLocation.y,
+				&moveInfo[i].nextArrayNum,
+				&moveInfo[i].waitTimeFlame,
+				&moveInfo[i].attackType
+				);//lineが一行を見る : %の所は整数か少数をとってくるもの : 最後は構造体に当てはめる
+		}
+
+		return;
+	}
+
+
+
+	fclose(fp); //ファイルを閉じる
+}
+
+//移動する順番(座標)の配列
+//T_Location locations[3] = {
+//
+//	{   640,150},
+//	{1000.4,150},
+//	{  180.2,150},
+//};
 
 //場所をループさせるための配列
-int next[3] = {
-	1,
-	2,
-	1
-};
+//int next[3] = {
+//	1,
+//	2,
+//	1
+//};
 
 
 
@@ -62,6 +99,8 @@ Enemy::Enemy(T_Location location, float speed)
 	{
 		bullets[i] = nullptr;
 	}
+
+	inputCSV();
 
 	float x = 1;
 	float y = 1;
@@ -267,7 +306,7 @@ void Enemy::Move()
 	T_Location nextLocation = GetLocation();
 
 	//行きたい場所の条件式(x.yが同じ場所に到達していたら)
-	if ((nextLocation.y ==moveInfo[current].targetLocation.y) &&
+	if ((nextLocation.y == moveInfo[current].targetLocation.y) &&
 		(nextLocation.x == moveInfo[current].targetLocation.x))
 	{
 		current = moveInfo[current].nextArrayNum;//次の座標を入れる処理

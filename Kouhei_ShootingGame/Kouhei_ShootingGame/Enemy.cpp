@@ -26,11 +26,11 @@ struct T_MoveInformation
 //敵エネミーの動きのパターンを作成する
 //上で作成したstructの中身の数字をこの中で決めている
 T_MoveInformation moveInfo[5] = {
-	{ 0,    640, 150, 1,  0, 0},
-	{ 0, 1000.4, 150, 2,  0, 2},
-	{ 1,      0,   0, 3,300, 1},
-	{ 0,  180.2, 150, 4  ,0, 2},
-	{ 1,      0,   0, 1,300, 1}
+	//{ 0,    640, 150, 1,  0, 0},
+	//{ 0, 1000.4, 150, 2,  0, 2},
+	//{ 1,      0,   0, 3,300, 1},
+	//{ 0,  180.2, 150, 4  ,0, 2},
+	//{ 1,      0,   0, 1,300, 1}
 };
 
 int current = 0;
@@ -42,6 +42,7 @@ void inputCSV()
 	errno_t error; // fopen_sのエラー確認
 
 	error = fopen_s(&fp, "EnemyData/EnemyMove1.csv", "r");//データを置いた場所をしっかりと指定する
+	//CSVファイルをヴィジュアルスタジオに読み込ませるときはスペースなどは使わないようにする
 
 	if (error != 0)//ゼロじゃない時
 	{
@@ -55,14 +56,14 @@ void inputCSV()
 		//while (fgets(line, 100, fp) != NULL)
 		for (int i = 0; fgets(line, 100, fp) != NULL; i++)//100の所は一行に100文字分を見るという意味
 		{
-			sscanf_s(line, "%d, %f, %f, %d, %d, %d",
+			sscanf_s(line, "%d, %f, %f, %d, %d, %d",//lineが一行を見る : %の所は整数か少数をとってくるもの : 最後は構造体に当てはめる
 				&moveInfo[i].pattern,
 				&moveInfo[i].targetLocation.x,
 				&moveInfo[i].targetLocation.y,
 				&moveInfo[i].nextArrayNum,
 				&moveInfo[i].waitTimeFlame,
 				&moveInfo[i].attackType
-				);//lineが一行を見る : %の所は整数か少数をとってくるもの : 最後は構造体に当てはめる
+				);
 		}
 
 		return;

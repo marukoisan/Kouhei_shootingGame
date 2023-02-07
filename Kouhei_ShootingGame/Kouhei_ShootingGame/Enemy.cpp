@@ -13,66 +13,7 @@
 //	{100,100}
 //};
 
-//データベースからデータを引っ張ってくるような感じ
-struct T_MoveInformation
-{
-	int pattern;                //行動パターン
-	T_Location targetLocation;  //座標
-	int nextArrayNum;           //次の配列番号
-	int waitTimeFlame;          //時間
-	int attackType;             //攻撃の手段
-};
 
-//敵エネミーの動きのパターンを作成する
-//上で作成したstructの中身の数字をこの中で決めている
-T_MoveInformation moveInfo[5] = {
-	//{ 0,    640, 150, 1,  0, 0},
-	//{ 0, 1000.4, 150, 2,  0, 2},
-	//{ 1,      0,   0, 3,300, 1},
-	//{ 0,  180.2, 150, 4  ,0, 2},
-	//{ 1,      0,   0, 1,300, 1}
-};
-
-int current = 0;
-int waitCount = 0;
-
-void inputCSV()
-{
-	FILE* fp; //FILE型構造体
-	errno_t error; // fopen_sのエラー確認
-
-	error = fopen_s(&fp, "EnemyData/EnemyMove1.csv", "r");//データを置いた場所をしっかりと指定する
-	//CSVファイルをヴィジュアルスタジオに読み込ませるときはスペースなどは使わないようにする
-
-	if (error != 0)//ゼロじゃない時
-	{
-		//エラー発生
-		return;
-	}
-	else 
-	{
-		//ファイルを開いた
-		char line[100];//一行
-		//while (fgets(line, 100, fp) != NULL)
-		for (int i = 0; fgets(line, 100, fp) != NULL; i++)//100の所は一行に100文字分を見るという意味
-		{
-			sscanf_s(line, "%d, %f, %f, %d, %d, %d",//lineが一行を見る : %の所は整数か少数をとってくるもの : 最後は構造体に当てはめる
-				&moveInfo[i].pattern,
-				&moveInfo[i].targetLocation.x,
-				&moveInfo[i].targetLocation.y,
-				&moveInfo[i].nextArrayNum,
-				&moveInfo[i].waitTimeFlame,
-				&moveInfo[i].attackType
-				);
-		}
-
-		return;
-	}
-
-
-
-	fclose(fp); //ファイルを閉じる
-}
 
 //移動する順番(座標)の配列
 //T_Location locations[3] = {
@@ -89,7 +30,43 @@ void inputCSV()
 //	1
 //};
 
+void Enemy::inputCSV()
+{
+	FILE* fp; //FILE型構造体
+	errno_t error; // fopen_sのエラー確認
 
+	error = fopen_s(&fp, "EnemyData/EnemyMove1.csv", "r");//データを置いた場所をしっかりと指定する
+	//CSVファイルをヴィジュアルスタジオに読み込ませるときはスペースなどは使わないようにする
+
+	if (error != 0)//ゼロじゃない時
+	{
+		//エラー発生
+		return;
+	}
+	else
+	{
+		//ファイルを開いた
+		char line[100];//一行
+		//while (fgets(line, 100, fp) != NULL)
+		for (int i = 0; fgets(line, 100, fp) != NULL; i++)//100の所は一行に100文字分を見るという意味
+		{
+			sscanf_s(line, "%d, %f, %f, %d, %d, %d",//lineが一行を見る : %の所は整数か少数をとってくるもの : 最後は構造体に当てはめる
+				&moveInfo[i].pattern,
+				&moveInfo[i].targetLocation.x,
+				&moveInfo[i].targetLocation.y,
+				&moveInfo[i].nextArrayNum,
+				&moveInfo[i].waitTimeFlame,
+				&moveInfo[i].attackType
+			);
+		}
+
+		return;
+	}
+
+
+
+	fclose(fp); //ファイルを閉じる
+}
 
 Enemy::Enemy(T_Location location, float speed)
 	: CharaBase(location, 20.f, T_Location{ 0,0 })

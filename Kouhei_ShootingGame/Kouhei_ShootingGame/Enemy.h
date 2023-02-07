@@ -1,5 +1,19 @@
 #pragma once
 #include "CharaBase.h"
+
+
+//データベースからデータを引っ張ってくるような感じ
+struct T_MoveInformation
+{
+	int pattern;                //行動パターン
+	T_Location targetLocation;  //座標
+	int nextArrayNum;           //次の配列番号
+	int waitTimeFlame;          //時間
+	int attackType;             //攻撃の手段
+};
+
+
+
 class Enemy : public CharaBase
 {
 private:
@@ -7,8 +21,17 @@ private:
 	int point;
 	int shotNum;//どれだけ弾を出したかの変数
 
+	//敵エネミーの動きのパターンを作成する
+	//上で作成したstructの中身の数字をこの中で決めている
+
+	T_MoveInformation moveInfo[5];
+
+
 protected:
 	int k = 0;//添え字用の変数
+	int current = 0; //添え字用の変数
+	int waitCount = 0; //時間用変数
+
 
 public:
 	Enemy(T_Location location , float speed);//コンストラクタ
@@ -22,5 +45,6 @@ public:
 	bool HpCheck();//ヒットポイントをチェックする関数
 	int GetPoint();//ポイントをもらう関数
 	void Move();//敵の移動処理
+	void inputCSV();//CSVファイルの読込み
 };
 

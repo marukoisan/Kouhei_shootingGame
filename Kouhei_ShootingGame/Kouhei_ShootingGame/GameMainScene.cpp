@@ -1,4 +1,8 @@
 #include "GameMainScene.h"
+#include"GameClearScene.h"
+#include"GameOverScene.h"
+#include"KeyManager.h"
+#include"DxLib.h"
 #include"Recovery.h"
 
 GameMainScene::GameMainScene()
@@ -81,6 +85,8 @@ void GameMainScene::Update()
 				//エネミーのhpが0以下
 				if (enemy[enemyCount]->HpCheck())
 				{
+					EnemyDown();//関数の呼び出し
+
 					//アイテムの処理
 
 					for (int i = 0; i < 10; i++)
@@ -218,6 +224,8 @@ void GameMainScene::Update()
 			itemCount--;
 		}
 	}
+
+	KeyManager::Update();//GOTO
 }
 
 //描画に関することを実装する
@@ -246,8 +254,26 @@ void GameMainScene::Draw() const
 
 }
 
+int GameMainScene::EnemyDown()//カウントされた数字をもらう
+{
+	enemyDown++;
+	return enemyDown;//プラス1された状態のはず…
+}
+
 //シーンの変更処理
 AbstractScene* GameMainScene::ChangeScene()
 {
+	
+	if (enemyDown == enemyVolume)//倒した数と設定した数が一緒になるか
+	{
+		return new GameClearScene();//行きたい場所
+	}
+
+	if (player->LifeCheck())//プレイヤーの体力が0以下になったら
+	{
+		return new GameOverScene();//行きたい場所
+	}
+
 	return this;
 }
+

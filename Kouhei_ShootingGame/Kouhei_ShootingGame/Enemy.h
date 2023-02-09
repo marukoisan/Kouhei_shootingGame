@@ -23,8 +23,8 @@ private:
 
 	//敵エネミーの動きのパターンを作成する
 	//上で作成したstructの中身の数字をこの中で決めている
-
 	T_MoveInformation moveInfo[5];
+
 
 
 protected:

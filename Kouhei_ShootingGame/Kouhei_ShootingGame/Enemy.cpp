@@ -78,12 +78,13 @@ Enemy::Enemy(T_Location location, float speed)
 		bullets[i] = nullptr;
 	}
 
-	inputCSV();
+	inputCSV();//CSVファイルの初期化
 
 	float x = 1;
 	float y = 1;
 
 	this->speed = T_Location{ (speed * x), (speed * y) };
+
 }
 
 
@@ -92,7 +93,7 @@ void Enemy::Update()
 	switch (moveInfo[current].pattern)//currentが配列の番号、パターンが行動のパターン。左に行ったり右に行ったり
 	{
 		case 0:
-			Move();
+			Move();//移動処理
 			break;
 
 		case 1:
@@ -270,13 +271,13 @@ bool Enemy::HpCheck()//ヒットポイントをチェックする関数
 {
 	bool ret = (hp <= 0);
 	return ret;
+
 }
 
 int Enemy::GetPoint()//ポイントをもらう関数
 {
 	return point;
 }
-
 
 void Enemy::Move()
 {

@@ -20,6 +20,7 @@ private:
 	int hp;
 	int point;
 	int shotNum;//どれだけ弾を出したかの変数
+	int BulletsNum;//弾の数
 
 	//敵エネミーの動きのパターンを作成する
 	//上で作成したstructの中身の数字をこの中で決めている

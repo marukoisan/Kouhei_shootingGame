@@ -3,6 +3,7 @@
 #include"BulletsBase.h"
 #include"StraightBullets.h"
 #include"RotationBullets.h"
+#include"RingBullets.h"
 
 //à⁄ìÆÇ∑ÇÈèáî‘(ç¿ïW)ÇÃîzóÒ
 //T_Location locations[4] = {
@@ -223,12 +224,32 @@ void Enemy::Update()
 				//1ÇæÇ¡ÇΩÇÁÇ‹Ç¡Ç∑ÇÆîÚÇ‘íe
 				bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
 			}
-			else if (moveInfo[current].attackType == 2)//2ÇæÇ¡ÇΩÇÁ
-			{
-				//âÒì]Ç∑ÇÈíe 2ÇæÇ¡ÇΩÇÁâÒì]ÇµÇƒîÚÇ‘íe
-				shotNum++;
-				bullets[bulletCount] = new RotationBullets(GetLocation(), 2.f, (20 * shotNum));
-			
+			//else if (moveInfo[current].attackType == 2)//2ÇæÇ¡ÇΩÇÁ
+			//{
+			//	//âÒì]Ç∑ÇÈíe 2ÇæÇ¡ÇΩÇÁâÒì]ÇµÇƒîÚÇ‘íe
+			//	shotNum++;
+			//	bullets[bulletCount] = new RotationBullets(GetLocation(), 2.f, (20 * shotNum));
+			//
+			//}
+			else if (moveInfo[current].attackType == 2)
+			{				
+				shotNum = 1;
+				BulletsNum++;
+				bullets[bulletCount] = new RingBullets(GetLocation(), 2.f,BulletsNum * (10 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, BulletsNum * (50 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, BulletsNum * (90 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, BulletsNum * (140 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, BulletsNum * (190 * shotNum));
+
+
+
+			  /*bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, (60 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, (70 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, (80 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, (90 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 2.f, (100 * shotNum));*/
+					
+
 			}
 		}
 	}

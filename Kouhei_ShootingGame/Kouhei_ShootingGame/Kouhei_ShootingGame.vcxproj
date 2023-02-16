@@ -164,6 +164,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Recovery.cpp" />
+    <ClCompile Include="RingBullets.cpp" />
     <ClCompile Include="RotationBullets.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Recovery.h" />
+    <ClInclude Include="RingBullets.h" />
     <ClInclude Include="RotationBullets.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SphereCollider.h" />

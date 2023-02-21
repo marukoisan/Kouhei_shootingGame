@@ -1,42 +1,17 @@
+#include "Enemy2.h"
 #include"DxLib.h"
-#include "Enemy.h"
 #include"BulletsBase.h"
 #include"StraightBullets.h"
-#include"RotationBullets.h"
 #include"RingBullets.h"
 
-//移動する順番(座標)の配列
-//T_Location locations[4] = {
-//
-//	{640,0},
-//	{640,100},
-//	{1100,100},
-//	{100,100}
-//};
 
 
-
-//移動する順番(座標)の配列
-//T_Location locations[3] = {
-//
-//	{   640,150},
-//	{1000.4,150},
-//	{  180.2,150},
-//};
-
-//場所をループさせるための配列
-//int next[3] = {
-//	1,
-//	2,
-//	1
-//};
-
-void Enemy::inputCSV()
+void Enemy2::inputCSV()
 {
 	FILE* fp; //FILE型構造体
 	errno_t error; // fopen_sのエラー確認
 
-	error = fopen_s(&fp, "EnemyData/EnemyMove1.csv", "r");//データを置いた場所をしっかりと指定する
+	error = fopen_s(&fp, "EnemyData/EnemyMove2.csv", "r");//データを置いた場所をしっかりと指定する
 	//CSVファイルをヴィジュアルスタジオに読み込ませるときはスペースなどは使わないようにする
 
 	if (error != 0)//ゼロじゃない時
@@ -69,7 +44,7 @@ void Enemy::inputCSV()
 	fclose(fp); //ファイルを閉じる
 }
 
-Enemy::Enemy(T_Location location, float speed)
+Enemy2::Enemy2(T_Location location, float speed)
 	: CharaBase(location, 20.f, T_Location{ 0,0 })
 	, hp(10), point(10), shotNum(0)
 {
@@ -89,28 +64,28 @@ Enemy::Enemy(T_Location location, float speed)
 }
 
 
-void Enemy::Update()
+void Enemy2::Update()
 {
 	switch (moveInfo[current].pattern)//currentが配列の番号、パターンが行動のパターン。左に行ったり右に行ったり
 	{
-		case 0:
-			Move();//移動処理
-			break;
+	case 0:
+		Move();//移動処理
+		break;
 
-		case 1:
-			waitCount++;//waitCountをたしていく
+	case 1:
+		waitCount++;//waitCountをたしていく
 
-			if (moveInfo[current].waitTimeFlame <= waitCount)//設定されたwaitTimeFlameと足されていくwaitCountを比べる
-			{
-				waitCount = 0;//ゼロを代入する
-				current = moveInfo[current].nextArrayNum;//現在参照しているもののnextArrayNumを参照してcurrentに代入する
-			}
-			break;
+		if (moveInfo[current].waitTimeFlame <= waitCount)//設定されたwaitTimeFlameと足されていくwaitCountを比べる
+		{
+			waitCount = 0;//ゼロを代入する
+			current = moveInfo[current].nextArrayNum;//現在参照しているもののnextArrayNumを参照してcurrentに代入する
+		}
+		break;
 
-		default:
-			break;
+	default:
+		break;
 	}
-	
+
 
 	////新しい座標に今いる座標を代入する
 	//T_Location newLocation = GetLocation();
@@ -224,25 +199,18 @@ void Enemy::Update()
 				//1だったらまっすぐ飛ぶ弾
 				bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
 			}
-			else if (moveInfo[current].attackType == 2)//2だったら
+			else if (moveInfo[current].attackType == 3)
 			{
-				//回転する弾 2だったら回転して飛ぶ弾
-				shotNum++;
-				bullets[bulletCount] = new RotationBullets(GetLocation(), 2.f, (20 * shotNum));
-			
+				//拡散する弾
+				shotNum = 1;
+				BulletsNum += 10;
+				bullets[bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (10 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (50 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (90 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (140 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (190 * shotNum));
+				bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (240 * shotNum));
 			}
-			//else if (moveInfo[current].attackType == 3)
-			//{				
-			//	//拡散する弾
-			//	shotNum = 1;
-			//	BulletsNum += 10;
-			//	bullets[bulletCount] = new RingBullets(GetLocation(), 3.f,BulletsNum * (10 * shotNum));
-			//	bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (50 * shotNum));
-			//	bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (90 * shotNum));
-			//	bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (140 * shotNum));
-			//	bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (190 * shotNum));
-			//	bullets[++bulletCount] = new RingBullets(GetLocation(), 3.f, BulletsNum * (240 * shotNum));
-			//}
 		}
 	}
 
@@ -251,7 +219,7 @@ void Enemy::Update()
 
 }
 
-void Enemy::Draw()
+void Enemy2::Draw()
 {
 	DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 0, 255));
 
@@ -268,7 +236,7 @@ void Enemy::Draw()
 
 }
 
-void Enemy::Hit(int damage)
+void Enemy2::Hit(int damage)
 {
 	if (0 < damage)
 	{
@@ -280,19 +248,19 @@ void Enemy::Hit(int damage)
 	}
 }
 
-bool Enemy::HpCheck()//ヒットポイントをチェックする関数
+bool Enemy2::HpCheck()//ヒットポイントをチェックする関数
 {
 	bool ret = (hp <= 0);
 	return ret;
 
 }
 
-int Enemy::GetPoint()//ポイントをもらう関数
+int Enemy2::GetPoint()//ポイントをもらう関数
 {
 	return point;
 }
 
-void Enemy::Move()
+void Enemy2::Move()
 {
 	//今いる座標を一時的に保存している
 	T_Location nextLocation = GetLocation();

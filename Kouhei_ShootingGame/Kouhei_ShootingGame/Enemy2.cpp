@@ -221,7 +221,7 @@ void Enemy2::Update()
 
 void Enemy2::Draw()
 {
-	DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 0, 255));
+	DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 255, 255));
 
 	//エネミーの弾の描画
 

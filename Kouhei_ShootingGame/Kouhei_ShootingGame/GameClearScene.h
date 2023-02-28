@@ -3,7 +3,8 @@
 
 class GameClearScene : public AbstractScene
 {
-
+private:
+	int WaitTimer = 0;//初期値ゼロ
 
 public:
 	GameClearScene();//コンストラクタ

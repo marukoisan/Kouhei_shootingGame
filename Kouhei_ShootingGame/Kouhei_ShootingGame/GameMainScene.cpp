@@ -263,7 +263,7 @@ int GameMainScene::EnemyDown()//カウントされた数字をもらう
 //シーンの変更処理
 AbstractScene* GameMainScene::ChangeScene()
 {
-	
+
 	if (enemyDown == enemyVolume)//倒した数と設定した数が一緒になるか
 	{
 		return new GameMainScene2();//行きたい場所

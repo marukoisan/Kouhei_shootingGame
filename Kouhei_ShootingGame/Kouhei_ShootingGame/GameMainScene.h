@@ -10,6 +10,7 @@ private:
 	Player* player;
 	Enemy** enemy;
 	ItemBase** items;
+	int WaitTimer = 0;//初期値ゼロ
 
 protected:
 	//もう一体のエネミーを作ったら同じ感じにしてどちらともTUREだったらみたいな判定を作る
@@ -27,6 +28,7 @@ public:
 	virtual void Draw() const override;//描画に関することを実装する
 
 	int EnemyDown();//カウントされた数字を貰う
+	int CountDown();//カウントされた数字をもらう
 	virtual AbstractScene* ChangeScene() override;//シーンの変更処理
 
 
